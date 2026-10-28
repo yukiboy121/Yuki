@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+@theme {
+  /* surface: a colourist's grading suite at night — calibrated warm graphite */
+  --color-ink: #131211;
+  --color-graphite: #1c1917;
+  --color-graphite-2: #262120;
+  /* paper: fibre-based darkroom print stock */
+  --color-paper: #f4f0e8;
+  --color-bone: #d9d2c6;
+  --color-ash: #8c8378;
+  /* anchor: darkroom safelight / tungsten key */
+  --color-safelight: #e9622b;
+  --color-ember: #7a2e12;
+  /* accent: film leader */
+  --color-leader: #4fb6b0;
+
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sinhala: "Noto Sans Sinhala", "Space Grotesk", sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "tnum";
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-safelight);
+    color: var(--color-ink);
+  }
+
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  img {
+    background-color: var(--color-graphite);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-safelight);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.86;
+    letter-spacing: -0.015em;
+  }
+
+  .sinhala {
+    font-family: var(--font-sinhala);
+    line-height: 1.7;
+    letter-spacing: 0;
+  }
+
+  /* darkroom / film grain */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  /* film edge: 35mm sprocket perforations */
+  .sprockets {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 10px,
+      rgba(217, 210, 198, 0.22) 10px 22px,
+      transparent 22px 32px
+    );
+  }
+
+  .sprockets-x {
+    background-image: repeating-linear-gradient(
+      to right,
+      transparent 0 10px,
+      rgba(217, 210, 198, 0.18) 10px 22px,
+      transparent 22px 32px
+    );
+  }
+
+  .rule-hover {
+    background-image: linear-gradient(to right, var(--color-safelight), var(--color-safelight));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .rule-hover:hover,
+  .rule-hover:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-x 38s linear infinite;
+}
+
+.animate-marquee-slow {
+  animation: marquee-x 64s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee,
+  .animate-marquee-slow {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
