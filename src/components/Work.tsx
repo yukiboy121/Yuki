@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
-import { categoryLabel, projects, toolkit, type Category, type Project } from "../data";
+import { ChevronLeft, ChevronRight, Plus, X, SlidersHorizontal } from "lucide-react";
+import { toolkit, type Category, type Project } from "../data";
+import { useProjects } from "../context/ProjectsContext";
 import { Reveal, SectionHead } from "./ui";
 
 /* ================================================================== */
@@ -10,11 +11,13 @@ function Lightbox({
   index,
   onIndex,
   onClose,
+  getCategoryLabel,
 }: {
   items: Project[];
   index: number | null;
   onIndex: (i: number | null) => void;
   onClose: () => void;
+  getCategoryLabel: (key: string) => string;
 }) {
   const count = items.length;
   const prev = useCallback(() => onIndex(index === null ? null : (index - 1 + count) % count), [index, count, onIndex]);
@@ -79,7 +82,7 @@ function Lightbox({
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="label text-ash">
-                  {categoryLabel[item.category]} · {item.year} · {item.role}
+                  {getCategoryLabel(item.category)} · {item.year} · {item.role}
                 </p>
                 <h3 className="display mt-2 text-[clamp(1.9rem,4vw,2.9rem)] text-paper">{item.title}</h3>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed text-bone/75">{item.note}</p>
@@ -111,36 +114,51 @@ function Lightbox({
 }
 
 /* ================================================================== */
-const filters: { key: Category | "all"; label: string }[] = [
-  { key: "all", label: "All work" },
-  { key: "web", label: "Web Development" },
-  { key: "design", label: "Graphic Design" },
-  { key: "photo", label: "Photography" },
-  { key: "vfx", label: "VFX Study" },
-];
 
 export function Work() {
-  const [filter, setFilter] = useState<Category | "all">("all");
+  const { projects, categories, getCategoryLabel, setIsDashboardOpen } = useProjects();
+  const [filter, setFilter] = useState<string>("all");
   const [index, setIndex] = useState<number | null>(null);
-  const visible = projects.filter((p) => filter === "all" || p.category === filter);
+
+  const filterTabs = [
+    { key: "all", label: "All Projects" },
+    ...categories,
+  ];
+
+  const visible = projects.filter(
+    (p) => filter === "all" || p.category.toLowerCase() === filter.toLowerCase()
+  );
 
   return (
-    <section id="work" className="relative px-6 py-24 sm:px-10 sm:py-32 lg:px-12">
+    <section id="projects" className="relative px-6 py-24 sm:px-10 sm:py-32 lg:px-12">
+      {/* Anchor for backward compatibility with #work */}
+      <div id="work" className="absolute -top-24" />
+
       <Reveal>
-        <SectionHead
-          index="03"
-          kicker="Selected work"
-          sinhala="තෝරාගත් කාර්යයන්"
-          title="Eight projects,"
-          italic="three disciplines."
-        />
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <SectionHead
+            index="03"
+            kicker="Projects Showcase"
+            sinhala="තෝරාගත් කාර්යයන් සහ ව්‍යාපෘති"
+            title={`${projects.length} curated works,`}
+            italic="multi-disciplinary portfolio."
+          />
+          <button
+            type="button"
+            onClick={() => setIsDashboardOpen(true)}
+            className="label self-start sm:self-end inline-flex items-center gap-2 border border-safelight/60 bg-safelight/10 px-4 py-2.5 text-safelight transition-all hover:bg-safelight hover:text-ink"
+          >
+            <SlidersHorizontal className="h-3.5 w-3.5" />
+            <span>Admin Dashboard</span>
+          </button>
+        </div>
       </Reveal>
 
       <Reveal delay={0.08}>
         <div className="mt-12 flex flex-wrap items-center gap-x-2 gap-y-3 border-y border-bone/12 py-4">
-          <span className="label mr-2 text-ash">Filter</span>
-          {filters.map((f) => {
-            const active = filter === f.key;
+          <span className="label mr-2 text-ash">Category</span>
+          {filterTabs.map((f) => {
+            const active = filter.toLowerCase() === f.key.toLowerCase();
             return (
               <button
                 key={f.key}
@@ -198,7 +216,7 @@ export function Work() {
                     <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-5 p-5 sm:p-6">
                       <div>
                         <p className="label text-safelight">
-                          {p.index} — {categoryLabel[p.category]}
+                          {p.index} — {getCategoryLabel(p.category)}
                         </p>
                         <h3 className="display mt-2 text-[clamp(1.75rem,3.2vw,2.6rem)] text-paper">{p.title}</h3>
                         <p className="mt-1 text-sm text-bone/70">{p.subtitle}</p>
@@ -230,21 +248,25 @@ export function Work() {
       {visible.length === 0 && (
         <div className="mt-16 border border-dashed border-bone/20 px-8 py-20 text-center">
           <p className="display text-3xl text-paper">Nothing filed under that — yet.</p>
-          <p className="mt-3 text-bone/60">The drawer is empty for this discipline. Try another filter.</p>
+          <p className="mt-3 text-bone/60">The drawer is empty for this discipline. Try another filter or add projects via the Dashboard.</p>
         </div>
       )}
 
-      <Lightbox items={visible} index={index} onIndex={setIndex} onClose={() => setIndex(null)} />
+      <Lightbox items={visible} index={index} onIndex={setIndex} onClose={() => setIndex(null)} getCategoryLabel={getCategoryLabel} />
     </section>
   );
 }
 
 /* ================================================================== */
-const photoSet = projects.filter((p) => p.category === "photo");
 
 export function Photography() {
+  const { projects } = useProjects();
   const [index, setIndex] = useState<number | null>(null);
-  const [feature, ...rest] = photoSet;
+  const photoSet = projects.filter((p) => p.category === "photo");
+  const feature = photoSet[0];
+  const rest = photoSet.slice(1);
+
+  if (!feature) return null;
 
   return (
     <section id="photography" className="relative border-y border-bone/12 bg-graphite">

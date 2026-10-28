@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { Menu, X, ArrowUpRight, ArrowUp } from "lucide-react";
+import { Menu, X, ArrowUpRight, ArrowUp, SlidersHorizontal } from "lucide-react";
 import { ApertureMark, Marquee } from "./ui";
+import { useProjects } from "../context/ProjectsContext";
 
 const links = [
-  { href: "#work", label: "Work" },
+  { href: "#projects", label: "Projects" },
   { href: "#services", label: "Services" },
   { href: "#about", label: "About" },
   { href: "#toolkit", label: "Toolkit" },
@@ -38,6 +39,7 @@ export function FilmRail() {
 }
 
 export function Nav() {
+  const { setIsDashboardOpen } = useProjects();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollYProgress } = useScroll();
@@ -76,28 +78,46 @@ export function Nav() {
             </span>
           </a>
 
-          <nav className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-7 md:flex">
             {links.map((l) => (
               <a key={l.href} href={l.href} className="label rule-hover text-bone/75 transition-colors hover:text-paper">
                 {l.label}
               </a>
             ))}
+            <button
+              type="button"
+              onClick={() => setIsDashboardOpen(true)}
+              className="label inline-flex items-center gap-1.5 border border-bone/20 bg-graphite/50 px-3 py-2 text-bone transition-all hover:border-safelight hover:text-safelight cursor-pointer"
+            >
+              <SlidersHorizontal className="h-3.5 w-3.5 text-safelight" />
+              <span>Dashboard</span>
+            </button>
             <a
               href="#contact"
-              className="label inline-flex items-center gap-2 border border-safelight/60 bg-safelight/10 px-4 py-2.5 text-safelight transition-colors hover:bg-safelight hover:text-ink"
+              className="label inline-flex items-center gap-2 border border-safelight/60 bg-safelight/10 px-4 py-2 text-safelight transition-colors hover:bg-safelight hover:text-ink"
             >
               Let&apos;s talk <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           </nav>
 
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            className="label flex items-center gap-2 border border-bone/20 px-3 py-2 text-bone md:hidden"
-          >
-            Menu <Menu className="h-4 w-4" />
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              type="button"
+              onClick={() => setIsDashboardOpen(true)}
+              aria-label="Open dashboard"
+              className="label flex items-center gap-1.5 border border-safelight/40 bg-safelight/10 px-2.5 py-2 text-safelight"
+            >
+              <SlidersHorizontal className="h-3.5 w-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+              className="label flex items-center gap-2 border border-bone/20 px-3 py-2 text-bone"
+            >
+              Menu <Menu className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -111,7 +131,7 @@ export function Nav() {
             className="fixed inset-0 z-[80] flex flex-col bg-ink px-6 pb-10 pt-5 md:hidden"
           >
             <div className="flex items-center justify-between">
-              <span className="label text-ash">Index</span>
+              <span className="label text-ash">Navigation</span>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
@@ -121,18 +141,31 @@ export function Nav() {
                 Close <X className="h-4 w-4" />
               </button>
             </div>
-            <nav className="mt-12 flex flex-col gap-6">
+            <nav className="mt-8 flex flex-col gap-4">
               {links.map((l, i) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-baseline gap-4 border-b border-bone/10 pb-4"
+                  className="flex items-baseline gap-4 border-b border-bone/10 pb-3"
                 >
                   <span className="label text-safelight">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="display text-5xl text-paper">{l.label}</span>
+                  <span className="display text-4xl text-paper">{l.label}</span>
                 </a>
               ))}
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  setIsDashboardOpen(true);
+                }}
+                className="flex items-baseline gap-4 border-b border-safelight/30 pb-3 text-left"
+              >
+                <span className="label text-safelight">06</span>
+                <span className="display text-4xl text-safelight flex items-center gap-3">
+                  Dashboard <SlidersHorizontal className="h-5 w-5" />
+                </span>
+              </button>
             </nav>
             <a
               href="#contact"
