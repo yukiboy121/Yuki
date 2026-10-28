@@ -6,7 +6,7 @@ import clsx from "clsx";
 /* Aperture monogram — six-blade iris, drawn by hand. One colour,       */
 /* legible at 16px, scales to any size.                                */
 /* ------------------------------------------------------------------ */
-export function ApertureMark({ className, title = "Ravindu Perera" }: { className?: string; title?: string }) {
+export function ApertureMark({ className, title = "Sneha Nethsara" }: { className?: string; title?: string }) {
   const id = useId();
   return (
     <svg

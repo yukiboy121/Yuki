@@ -92,10 +92,10 @@ export function Contact() {
                 <div>
                   <p className="label text-ink/50">Email</p>
                   <a
-                    href="mailto:hello@ravinduperera.com"
+                    href="mailto:hello@snehanethsara.com"
                     className="rule-hover mt-1 inline-block text-lg text-ink hover:text-ember"
                   >
-                    hello@ravinduperera.com
+                    hello@snehanethsara.com
                   </a>
                 </div>
               </li>

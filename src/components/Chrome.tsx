@@ -25,7 +25,7 @@ export function FilmRail() {
       <ApertureMark className="h-6 w-6 text-safelight" />
       <div className="flex flex-1 items-center">
         <p className="label rotate-180 text-ash [writing-mode:vertical-rl]">
-          R. Perera — Portfolio MMXXVI — Colombo
+          S. Nethsara — Portfolio MMXXVI — Colombo
         </p>
       </div>
       <div className="flex flex-col items-center gap-2">
@@ -71,7 +71,7 @@ export function Nav() {
           <a href="#top" className="group flex items-center gap-3">
             <ApertureMark className="h-7 w-7 text-safelight transition-transform duration-700 group-hover:rotate-[60deg]" />
             <span className="leading-tight">
-              <span className="label block text-paper">Ravindu Perera</span>
+              <span className="label block text-paper">Sneha Nethsara</span>
               <span className="label block text-[0.6rem] text-ash">Web · Design · Photo · VFX</span>
             </span>
           </a>
@@ -176,7 +176,7 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <ApertureMark className="h-8 w-8 text-safelight" />
               <p className="display text-3xl text-paper">
-                Ravindu <em className="italic text-safelight">Perera</em>
+                Sneha <em className="italic text-safelight">Nethsara</em>
               </p>
             </div>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-ash">
@@ -189,8 +189,8 @@ export function Footer() {
             <p className="label text-ash">Contact</p>
             <ul className="mt-5 space-y-2.5 text-sm">
               <li>
-                <a className="rule-hover text-bone hover:text-paper" href="mailto:hello@ravinduperera.com">
-                  hello@ravinduperera.com
+                <a className="rule-hover text-bone hover:text-paper" href="mailto:hello@snehanethsara.com">
+                  hello@snehanethsara.com
                 </a>
               </li>
               <li>
@@ -206,10 +206,10 @@ export function Footer() {
             <p className="label text-ash">Elsewhere</p>
             <ul className="mt-5 space-y-2.5 text-sm">
               {[
-                { label: "Instagram — @ravindu.frames", href: "https://instagram.com" },
-                { label: "Behance — ravinduperera", href: "https://behance.net" },
-                { label: "GitHub — ravindu-p", href: "https://github.com" },
-                { label: "LinkedIn — ravinduperera", href: "https://linkedin.com" },
+                { label: "Instagram — @sneha.frames", href: "https://instagram.com" },
+                { label: "Behance — snehanethsara", href: "https://behance.net" },
+                { label: "GitHub — sneha-n", href: "https://github.com" },
+                { label: "LinkedIn — snehanethsara", href: "https://linkedin.com" },
               ].map((s) => (
                 <li key={s.label}>
                   <a
@@ -228,7 +228,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-4 border-t border-bone/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="label text-ash">
-            RP-2026 · Frame 001 · Kodak 5219 · Colombo — <span className="text-bone/60">© 2026 Ravindu Perera</span>
+            SN-2026 · Frame 001 · Kodak 5219 · Colombo — <span className="text-bone/60">© 2026 Sneha Nethsara</span>
           </p>
           <a href="#top" className="label inline-flex items-center gap-2 text-safelight">
             Back to top <ArrowUp className="h-3.5 w-3.5" />

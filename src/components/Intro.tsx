@@ -49,10 +49,10 @@ export function Hero() {
 
         <h1 className="display mt-8 text-[clamp(3.15rem,11vw,9.5rem)] text-paper">
           <motion.span {...line(0.68)} className="block">
-            Ravindu
+            Sneha
           </motion.span>
           <motion.span {...line(0.8)} className="block italic text-safelight">
-            Perera
+            Nethsara
           </motion.span>
         </h1>
 
